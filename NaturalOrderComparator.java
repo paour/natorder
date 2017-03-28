@@ -52,12 +52,12 @@ public class NaturalOrderComparator implements Comparator
                 return bias;
             }
 
-            if (ca < cb) {
-                if (bias == 0) {
+            if (bias == 0) {
+                if (ca < cb) {
                     bias = -1;
+                } else if (ca > cb) {
+                    bias = +1;
                 }
-            } else if (ca > cb && bias == 0) {
-                bias = +1;
             }
         }
     }
