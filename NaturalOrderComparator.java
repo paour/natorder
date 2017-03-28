@@ -56,10 +56,8 @@ public class NaturalOrderComparator implements Comparator
                 if (bias == 0) {
                     bias = -1;
                 }
-            } else if (ca > cb) {
-                if (bias == 0) {
-                    bias = +1;
-                }
+            } else if (ca > cb && bias == 0) {
+                bias = +1;
             }
         }
     }
@@ -72,7 +70,6 @@ public class NaturalOrderComparator implements Comparator
         int ia = 0, ib = 0;
         int nza = 0, nzb = 0;
         char ca, cb;
-        int result;
 
         while (true) {
             // Only count the number of zeroes leading the last number compared
@@ -105,8 +102,11 @@ public class NaturalOrderComparator implements Comparator
             }
 
             // Process run of digits
-            if (Character.isDigit(ca) && Character.isDigit(cb) && ((result = compareRight(a.substring(ia), b.substring(ib))) != 0)) {
-                return result;
+            if (Character.isDigit(ca) && Character.isDigit(cb)) {
+                int bias = compareRight(a.substring(ia), b.substring(ib));
+                if (bias != 0) {
+                    return bias;
+                }
             }
 
             if (ca == 0 && cb == 0) {
@@ -114,7 +114,6 @@ public class NaturalOrderComparator implements Comparator
                 // will want to call strcmp to break the tie.
                 return nza - nzb;
             }
-
             if (ca < cb) {
                 return -1;
             }
