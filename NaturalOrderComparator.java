@@ -158,7 +158,7 @@ public class NaturalOrderComparator implements Comparator
     }
     
     static void floatsWithCommas() {
-        List<String> unSorted = Arrays.asList("0,9", "1,0c", "1,2", "1,3", "0,6", "1,1", "0,7", "0,3", "1,0b", "1,0", "0,8");
+        List<String> unSorted = Arrays.asList("0.9", "1.0c", "1.2", "1.3", "0.6", "1.1", "0.7", "0.3", "1.0b", "1.0", "0.8");
 
         System.out.println("Unsorted: " + unSorted);
 
