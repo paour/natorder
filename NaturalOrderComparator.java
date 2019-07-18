@@ -39,13 +39,13 @@ public class NaturalOrderComparator implements Comparator
             char ca = charAt(a, ia);
             char cb = charAt(b, ib);
 
-            if (!Character.isDigit(ca) && !Character.isDigit(cb)) {
+            if (!isDigit(ca) && !isDigit(cb)) {
                 return bias;
             }
-            if (!Character.isDigit(ca)) {
+            if (!isDigit(ca)) {
                 return -1;
             }
-            if (!Character.isDigit(cb)) {
+            if (!isDigit(cb)) {
                 return +1;
             }
             if (ca == 0 && cb == 0) {
@@ -125,6 +125,10 @@ public class NaturalOrderComparator implements Comparator
             ++ib;
         }
     }
+    
+    static boolean isDigit(char c) {
+        return Character.isDigit(c) || c == '.' || c == ',';
+    }
 
     static char charAt(String s, int i) {
         return i >= s.length() ? 0 : s.charAt(i);
@@ -149,5 +153,17 @@ public class NaturalOrderComparator implements Comparator
         Collections.sort(scrambled, new NaturalOrderComparator());
 
         System.out.println("Sorted: " + scrambled);
+        
+        floatsWithCommas();
+    }
+    
+    static void floatsWithCommas() {
+        List<String> unSorted = Arrays.asList("0,9", "1,0c", "1,2", "1,3", "0,6", "1,1", "0,7", "0,3", "1,0b", "1,0", "0,8");
+
+        System.out.println("Unsorted: " + unSorted);
+
+        unSorted.sort(new NaturalOrderComparator());
+
+        System.out.println("Sorted: " + unSorted);
     }
 }
