@@ -112,7 +112,7 @@ public class NaturalOrderComparator implements Comparator
             if (ca == 0 && cb == 0) {
                 // The strings compare the same. Perhaps the caller
                 // will want to call strcmp to break the tie.
-                return nza - nzb;
+                return compareEqual(a, b, nza, nzb);
             }
             if (ca < cb) {
                 return -1;
@@ -128,6 +128,16 @@ public class NaturalOrderComparator implements Comparator
 
     static char charAt(String s, int i) {
         return i >= s.length() ? 0 : s.charAt(i);
+    }
+    
+    static int compareEqual(String a, String b, int nza, int nzb) {
+        if (nza - nzb != 0)
+            return nza - nzb;
+
+        if (a.length() == b.length())
+            return a.compareTo(b);
+
+        return a.length() - b.length();
     }
 
     public static void main(String[] args)
@@ -149,5 +159,30 @@ public class NaturalOrderComparator implements Comparator
         Collections.sort(scrambled, new NaturalOrderComparator());
 
         System.out.println("Sorted: " + scrambled);
+
+        shuffle3000(scrambled);
+
+        compareSymmetric();
+    }
+    
+    static void shuffle3000(List<? extends Object> scrambled) {
+        Collections.shuffle(scrambled, new Random(3000));
+        Collections.sort(scrambled, new NaturalOrderComparator());
+
+        System.out.println("Sorted: " + scrambled);
+    }
+
+    static void compareSymmetric() {
+        NaturalOrderComparator naturalOrderComparator = new NaturalOrderComparator();
+
+        int compare1 = naturalOrderComparator.compare("1-2", "1-02");
+        int compare2 = naturalOrderComparator.compare("1-02", "1-2");
+
+        System.out.println(compare1 + " == " + compare2);
+
+        compare1 = naturalOrderComparator.compare("pic 5", "pic05");
+        compare2 = naturalOrderComparator.compare("pic05", "pic 5");
+
+        System.out.println(compare1 + " == " + compare2);
     }
 }
